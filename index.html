@@ -2,15 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Trueglam Pharmaceuticals Pvt Ltd</title>
     <style>
-        /* Smooth scrolling for anchor links */
+        /* Mobile-first touch optimizations */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-touch-callout: none;
+        }
+        
+        /* Prevent text size adjust on mobile */
         html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
             scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Account for fixed header */
+        }
+        
+        /* Better touch feedback */
+        a, button, input, textarea, select, label, [role="button"] {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+            touch-action: manipulation;
+        }
+        
+        /* Prevent long press menu on iOS */
+        a, button, input, textarea, select, img, div {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Better form elements for mobile */
+        input, textarea, select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0;
+            font-size: 16px; /* Prevents iOS zoom */
+        }
+        
+        /* Smooth scrolling for anchor links */
+        @media (prefers-reduced-motion: no-preference) {
+            html {
+                scroll-behavior: smooth;
+                scroll-padding-top: 80px; /* Account for fixed header */
+            }
+            
+            @media (max-width: 768px) {
+                html {
+                    scroll-padding-top: 60px; /* Smaller header on mobile */
+                }
+            }
         }
         
         @keyframes typewriter {
@@ -305,11 +358,60 @@
         }
         
         .nav-links a {
-            padding: 8px 0;
+            padding: 12px 15px;
             position: relative;
             color: var(--dark);
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.2s ease;
+            display: flex;
+            min-height: 44px;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 4px 0;
+        }
+        
+        /* Mobile-specific optimizations */
+        @media (max-width: 768px) {
+            /* Improve touch targets */
+            a, button, .btn, [role="button"] {
+                min-height: 44px;
+                min-width: 44px;
+                padding: 12px 20px;
+            }
+            
+            /* Better form input spacing */
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            /* Optimize images */
+            img {
+                max-width: 100%;
+                height: auto;
+                -webkit-backface-visibility: hidden;
+                -ms-transform: translateZ(0);
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+            
+            /* Prevent horizontal scroll */
+            html, body {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+            
+            /* Better scrolling */
+            body {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
         }
         
         /* Mobile Navigation */
@@ -439,15 +541,56 @@
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 14px 30px;
             background: var(--gradient-primary);
             color: white;
             border: none;
             border-radius: var(--border-radius);
             font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.2s ease;
             box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-width: 120px;
+            min-height: 48px; /* Minimum touch target size */
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            vertical-align: middle;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            text-decoration: none;
+            line-height: 1.2;
+            
+            /* Ripple effect */
+            &:after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: rgba(255, 255, 255, 0.2);
+                opacity: 0;
+                transition: all 0.3s ease;
+                border-radius: inherit;
+            }
+            
+            &:active:after {
+                opacity: 1;
+                transform: scale(1.5);
+            }
             position: relative;
             overflow: hidden;
         }
@@ -2169,38 +2312,164 @@
             });
         });
 
-        // Form validation
+        // Enhanced form validation with touch support
         const form = document.querySelector('.contact-form form');
         if (form) {
-            form.addEventListener('submit', function(e) {
+            // Add touch feedback for form inputs
+            const inputs = form.querySelectorAll('input, textarea, button, .btn');
+            
+            inputs.forEach(input => {
+                // Prevent zoom on focus for inputs on mobile
+                if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+                    input.addEventListener('touchstart', function() {
+                        this.style.fontSize = '16px'; // Prevents iOS zoom
+                    });
+                    
+                    // Better focus handling for mobile
+                    input.addEventListener('focus', function() {
+                        this.parentElement.classList.add('focused');
+                        // Scroll to input on focus with offset
+                        const yOffset = -80;
+                        const y = this.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    });
+                    
+                    input.addEventListener('blur', function() {
+                        this.parentElement.classList.remove('focused');
+                    });
+                }
+                
+                // Add touch feedback
+                input.addEventListener('touchstart', function() {
+                    this.classList.add('active');
+                });
+                
+                input.addEventListener('touchend', function() {
+                    this.classList.remove('active');
+                });
+            });
+            
+            // Form submission with better mobile UX
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const inputs = this.querySelectorAll('input, textarea');
+                const formInputs = this.querySelectorAll('input, textarea');
                 let isValid = true;
+                let firstInvalid = null;
 
-                inputs.forEach(input => {
+                formInputs.forEach(input => {
                     if (!input.value.trim()) {
                         isValid = false;
                         input.classList.add('error');
+                        if (!firstInvalid) firstInvalid = input;
                     } else {
                         input.classList.remove('error');
                     }
                 });
 
-                if (isValid) {
-                    // Add success animation
-                    this.querySelector('.btn').classList.add('success');
+                if (!isValid) {
+                    // Scroll to first invalid input
+                    if (firstInvalid) {
+                        const yOffset = -100;
+                        const y = firstInvalid.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    }
+                    return;
+                }
+
+                
+                // Show loading state
+                const submitBtn = this.querySelector('.btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Sending...';
+                
+                try {
+                    // Simulate form submission (replace with actual form submission)
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Show success state
+                    submitBtn.classList.add('success');
+                    submitBtn.innerHTML = 'Sent! ✓';
+                    this.reset();
+                    
+                    // Reset button state
                     setTimeout(() => {
-                        this.reset();
-                        this.querySelector('.btn').classList.remove('success');
+                        submitBtn.classList.remove('success');
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                    
+                } catch (error) {
+                    // Show error state
+                    submitBtn.classList.add('error');
+                    submitBtn.innerHTML = 'Error! ✕';
+                    setTimeout(() => {
+                        submitBtn.classList.remove('error');
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
                     }, 2000);
                 }
             });
         }
 
-        // Add hover effects to product cards
+        // Enhanced card interactions for touch devices
         document.querySelectorAll('.product-card').forEach(card => {
+            let isTouched = false;
+            let startY = 0;
+            
+            // Touch start handler
+            card.addEventListener('touchstart', (e) => {
+                isTouched = true;
+                startY = e.touches[0].clientY;
+                card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+                card.style.transform = 'scale(0.98)';
+                card.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            }, { passive: true });
+            
+            // Touch end handler
+            card.addEventListener('touchend', () => {
+                if (!isTouched) return;
+                isTouched = false;
+                card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+                card.style.transform = 'scale(1)';
+                card.style.boxShadow = '';
+            }, { passive: true });
+            
+            // Touch move handler
+            card.addEventListener('touchmove', (e) => {
+                if (!isTouched) return;
+                const y = e.touches[0].clientY;
+                const diffY = Math.abs(y - startY);
+                
+                // If vertical scroll detected, cancel the touch effect
+                if (diffY > 10) {
+                    isTouched = false;
+                    card.style.transform = 'scale(1)';
+                    card.style.boxShadow = '';
+                }
+            }, { passive: true });
+            
+            // Click/tap handler
+            card.addEventListener('click', (e) => {
+                // Only trigger if it's not a link or button
+                if (!e.target.closest('a, button, .btn')) {
+                    // Toggle active state
+                    card.classList.toggle('active');
+                    
+                    // Close other open cards
+                    document.querySelectorAll('.product-card').forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.classList.remove('active');
+                        }
+                    });
+                }
+            });
+            
+            // Hover effects for desktop
             card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-5px)';
+                if (!('ontouchstart' in window)) {
+                    card.style.transform = 'translateY(-5px)';
+                }
             });
 
             card.addEventListener('mouseleave', () => {
