@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -422,13 +422,42 @@
         }
         
         /* Mobile Navigation */
-        /* Mobile Navigation */
         @media (max-width: 991px) {
             .menu-toggle {
                 display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 44px;
+                height: 44px;
+                padding: 10px;
+                background: transparent;
+                border: none;
+                cursor: pointer;
                 z-index: 1001;
                 position: relative;
                 margin-left: auto;
+            }
+            
+            .menu-toggle span {
+                display: block;
+                width: 24px;
+                height: 2px;
+                background-color: #1a365d;
+                margin: 4px 0;
+                transition: all 0.3s ease;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(6px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-6px) rotate(-45deg);
             }
             
             .nav-overlay {
@@ -442,6 +471,7 @@
                 z-index: 998;
                 opacity: 0;
                 transition: opacity 0.3s ease;
+                -webkit-tap-highlight-color: transparent;
             }
             
             .nav-overlay.active {
@@ -464,6 +494,12 @@
                 transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            
+            .nav-links::-webkit-scrollbar {
+                display: none;
             }
             
             .nav-links.active {
@@ -474,7 +510,8 @@
                 margin: 15px 0;
                 opacity: 0;
                 transform: translateX(-20px);
-                transition: all 0.3s ease 0.1s;
+                transition: all 0.3s ease;
+                list-style: none;
             }
             
             .nav-links.active li {
@@ -482,18 +519,15 @@
                 transform: translateX(0);
             }
             
-            .nav-links li:nth-child(1) { transition-delay: 0.1s; }
-            .nav-links li:nth-child(2) { transition-delay: 0.15s; }
-            .nav-links li:nth-child(3) { transition-delay: 0.2s; }
-            .nav-links li:nth-child(4) { transition-delay: 0.25s; }
-            .nav-links li:nth-child(5) { transition-delay: 0.3s; }
-            
             .nav-links a {
                 font-size: 18px;
                 padding: 12px 15px;
                 display: block;
                 border-radius: 8px;
                 transition: all 0.3s ease;
+                color: #1a365d;
+                text-decoration: none;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
             }
             
             .nav-links a:active {
@@ -2172,73 +2206,136 @@
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
-            const navOverlay = document.createElement('div');
-            navOverlay.className = 'nav-overlay';
-            document.body.appendChild(navOverlay);
+            let navOverlay = document.querySelector('.nav-overlay');
+            
+            // Create overlay if it doesn't exist
+            if (!navOverlay) {
+                navOverlay = document.createElement('div');
+                navOverlay.className = 'nav-overlay';
+                document.body.appendChild(navOverlay);
+            }
             
             const navLinksItems = document.querySelectorAll('.nav-link');
             let isMenuOpen = false;
             
-            function toggleMenu(open) {
-                isMenuOpen = typeof open === 'boolean' ? open : !isMenuOpen;
-                
-                menuToggle.classList.toggle('active', isMenuOpen);
-                navLinks.classList.toggle('active', isMenuOpen);
-                navOverlay.classList.toggle('active', isMenuOpen);
-                
-                if (isMenuOpen) {
-                    document.body.style.overflow = 'hidden';
-                    document.documentElement.style.overflow = 'hidden';
-                    // Add smooth transition for menu items
-                    setTimeout(() => {
-                        navLinks.querySelectorAll('li').forEach(li => {
-                            li.style.opacity = 1;
-                            li.style.transform = 'translateX(0)';
-                        });
-                    }, 50);
-                } else {
+            // Initialize menu state
+            function initMenu() {
+                if (window.innerWidth <= 991) {
+                    navLinks.style.transition = 'none';
+                    navLinks.style.left = '-320px';
+                    navLinks.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    navOverlay.classList.remove('active');
                     document.body.style.overflow = '';
                     document.documentElement.style.overflow = '';
-                    // Reset menu items for next open
+                    isMenuOpen = false;
+                    
+                    // Reset menu items
                     navLinks.querySelectorAll('li').forEach(li => {
-                        li.style.opacity = 0;
-                        li.style.transform = 'translateX(20px)';
+                        li.style.opacity = '0';
+                        li.style.transform = 'translateX(-20px)';
                     });
+                } else {
+                    navLinks.style.transition = '';
+                    navLinks.style.left = '';
+                    navLinks.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    navOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    document.documentElement.style.overflow = '';
+                    isMenuOpen = false;
                 }
             }
             
-            menuToggle.addEventListener('click', (e) => {
+            function toggleMenu(open) {
+                isMenuOpen = typeof open === 'boolean' ? open : !isMenuOpen;
+                
+                if (window.innerWidth <= 991) {
+                    menuToggle.classList.toggle('active', isMenuOpen);
+                    navLinks.classList.toggle('active', isMenuOpen);
+                    navOverlay.classList.toggle('active', isMenuOpen);
+                    
+                    if (isMenuOpen) {
+                        document.body.style.overflow = 'hidden';
+                        document.documentElement.style.overflow = 'hidden';
+                        // Add smooth transition for menu items
+                        setTimeout(() => {
+                            navLinks.querySelectorAll('li').forEach((li, index) => {
+                                li.style.transition = `opacity 0.3s ease ${0.1 + (index * 0.05)}s, transform 0.3s ease ${0.1 + (index * 0.05)}s`;
+                                li.style.opacity = '1';
+                                li.style.transform = 'translateX(0)';
+                            });
+                        }, 50);
+                    } else {
+                        document.body.style.overflow = '';
+                        document.documentElement.style.overflow = '';
+                        // Reset menu items
+                        navLinks.querySelectorAll('li').forEach(li => {
+                            li.style.opacity = '0';
+                            li.style.transform = 'translateX(-20px)';
+                        });
+                    }
+                }
+            }
+            
+            // Toggle menu on button click
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
                 toggleMenu();
             });
             
-            // Close mobile menu when clicking on a nav link
+            // Close menu when clicking on a nav link
             navLinksItems.forEach(link => {
-                link.addEventListener('click', () => {
-                    toggleMenu(false);
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 991) {
+                        e.preventDefault();
+                        const target = document.querySelector(link.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        toggleMenu(false);
+                    }
                 });
             });
             
             // Close menu when clicking overlay
-            navOverlay.addEventListener('click', () => {
+            navOverlay.addEventListener('click', function(e) {
+                e.preventDefault();
                 toggleMenu(false);
             });
             
             // Handle keyboard navigation and escape key
-            document.addEventListener('keydown', (e) => {
+            document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && isMenuOpen) {
                     toggleMenu(false);
                 }
             });
             
-            // Close menu when window is resized to desktop
+            // Handle window resize
+            let resizeTimer;
             function handleResize() {
-                if (window.innerWidth > 992 && isMenuOpen) {
-                    toggleMenu(false);
-                }
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth > 991 && isMenuOpen) {
+                        toggleMenu(false);
+                    }
+                    initMenu();
+                }, 100);
             }
             
+            // Initialize menu on load
+            initMenu();
+            
+            // Add event listeners
             window.addEventListener('resize', handleResize);
+            
+            // Prevent body scroll when menu is open on mobile
+            document.addEventListener('touchmove', function(e) {
+                if (isMenuOpen && window.innerWidth <= 991) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
         });
         
         // Animate Quality Assurance section on scroll
