@@ -281,7 +281,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(255, 255, 255, 0.7);
             z-index: -1;
             transition: var(--transition);
         }
@@ -292,11 +292,11 @@
         }
         
         header.scrolled::before {
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         header.scrolled {
-            background-color: rgba(255, 255, 255, 0.94);
+            background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
@@ -350,11 +350,17 @@
             width: 100%;
         }
 
+        /* Desktop Navigation */
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 10px;
             align-items: center;
             margin-left: auto;
+        }
+        
+        .nav-links li {
+            position: relative;
+            list-style: none;
         }
         
         .nav-links a {
@@ -393,6 +399,7 @@
                 max-width: 100%;
                 height: auto;
                 -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
                 -ms-transform: translateZ(0);
                 -webkit-transform: translateZ(0);
                 transform: translateZ(0);
@@ -415,11 +422,13 @@
         }
         
         /* Mobile Navigation */
-        @media (max-width: 992px) {
+        /* Mobile Navigation */
+        @media (max-width: 991px) {
             .menu-toggle {
                 display: flex;
                 z-index: 1001;
                 position: relative;
+                margin-left: auto;
             }
             
             .nav-overlay {
@@ -443,28 +452,28 @@
             .nav-links {
                 position: fixed;
                 top: 0;
-                right: -320px;
+                left: -320px;
                 width: 85%;
                 max-width: 320px;
                 height: 100vh;
                 background: white;
                 flex-direction: column;
                 padding: 80px 25px 30px;
-                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+                box-shadow: 5px 0 25px rgba(0, 0, 0, 0.1);
                 z-index: 999;
-                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
             }
             
             .nav-links.active {
-                right: 0;
+                left: 0;
             }
             
             .nav-links li {
                 margin: 15px 0;
                 opacity: 0;
-                transform: translateX(20px);
+                transform: translateX(-20px);
                 transition: all 0.3s ease 0.1s;
             }
             
@@ -490,6 +499,10 @@
             .nav-links a:active {
                 background: rgba(67, 97, 238, 0.1);
                 transform: translateX(5px);
+            }
+            
+            .menu-toggle {
+                order: 1;  /* Move menu toggle to the right */
             }
         }
 
@@ -617,6 +630,31 @@
             align-items: center;
         }
         
+        @media (max-width: 768px) {
+            .hero {
+                background: url('mainf.png') center/cover no-repeat;
+                min-height: 80vh;
+                background-position: 60% center; /* Adjust position to show more important part of the image */
+                padding: 100px 0 60px;
+            }
+            
+            .hero .container {
+                margin: 0 auto !important;
+                padding: 0 20px !important;
+                text-align: center;
+            }
+            
+            .logo-container {
+                position: static !important;
+                margin: 0 auto 20px !important;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem !important;
+                text-align: center;
+            }
+        }
+        
         .hero .container {
             padding-top: 40px;
             padding-bottom: 40px;
@@ -663,7 +701,7 @@
             z-index: 2;
             max-width: 800px;
             margin: 100px 0 0 60px;  /* Increased top margin to push content down */
-            padding: 0 20px;
+            padding: 100px 20px 20px 180px;  /* Added left padding to prevent text overlap with logo */
             animation: fadeInUp 1s ease-out;
         }
         
@@ -676,6 +714,19 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+        
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 240px;  /* Aligns with text start (180px padding + 60px margin) */
+            z-index: 10;
+        }
+        
+        .hero-logo {
+            max-width: 150px;
+            height: auto;
+            display: block;
         }
         
         .hero h1 {
@@ -2072,16 +2123,37 @@
             color: var(--gray);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+        /* Hide mobile menu on desktop */
+        @media (min-width: 992px) {
+            .nav-overlay,
+            .menu-toggle {
+                display: none !important;
             }
+            
+            .nav-links {
+                display: flex !important;
+                position: static !important;
+                width: auto !important;
+                height: auto !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                transform: none !important;
+            }
+            
+            .nav-links li {
+                opacity: 1 !important;
+                transform: none !important;
+                margin: 0 !important;
+            }
+        }
 
+        /* Responsive styles */
+        @media (max-width: 768px) {
             .about-content {
                 flex-direction: column;
             }
-
+            
             .hero h1 {
                 font-size: 36px;
             }
@@ -2227,7 +2299,7 @@
             const desc = document.getElementById('typewriter-desc');
             
             if (desc) {
-                const descText = 'Trueglam Pharmaceuticals Pvt Ltd is committed to providing high-quality and affordable medicines to support patients in need.';
+                const descText = 'At TRUEGLAM, we constantly work towards ensuring access to high quality and affordable medicines to support patients in need.';
                 
                 // Initial styles
                 desc.style.display = 'inline-block';
@@ -2603,8 +2675,7 @@
                         <li><a href="#home" class="nav-link">Home</a></li>
                         <li><a href="#about" class="nav-link">About</a></li>
                         <li><a href="#products" class="nav-link">Products</a></li>
-                        <li><a href="#quality" class="nav-link">Quality</a></li>
-                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#footer" class="nav-link">Contact</a></li>
                     </ul>
                 </nav>
             </div>
@@ -2614,8 +2685,11 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
+            <div class="logo-container">
+                <img src="l.png" alt="Trueglam Logo" class="hero-logo">
+            </div>
             <h1>
-                <span class="highlight">TRUEGLAM</span>
+                <span class="highlight">Trueglam Pharmaceuticals Private Limited</span>
             </h1>
             <p class="hero-description"><span id="typewriter-desc"></span><span class="cursor"></span></p>
             <a href="#what-we-provide" class="btn">Learn More</a>
