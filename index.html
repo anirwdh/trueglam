@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Trueglam Pharmaceuticals Pvt Ltd</title>
     <style>
         /* Smooth scrolling for anchor links */
@@ -166,6 +169,46 @@
             margin-bottom: 40px;
         }
 
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1000;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2.5px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+        
+        .menu-toggle:hover span {
+            background: var(--secondary);
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
         /* Header */
         header {
             background: url('minimalistic-science-banner-with-pills.jpg') no-repeat center center;
@@ -219,6 +262,16 @@
             display: flex;
             flex-direction: column;
         }
+        
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 20px;
+            }
+            
+            .logo .tagline {
+                font-size: 10px;
+            }
+        }
 
         .logo .logo-text {
             background: linear-gradient(135deg, #3498db, #2ecc71);
@@ -249,6 +302,93 @@
             gap: 30px;
             align-items: center;
             margin-left: auto;
+        }
+        
+        .nav-links a {
+            padding: 8px 0;
+            position: relative;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        /* Mobile Navigation */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+                position: relative;
+            }
+            
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .nav-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -320px;
+                width: 85%;
+                max-width: 320px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 80px 25px 30px;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+                opacity: 0;
+                transform: translateX(20px);
+                transition: all 0.3s ease 0.1s;
+            }
+            
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            
+            .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links li:nth-child(2) { transition-delay: 0.15s; }
+            .nav-links li:nth-child(3) { transition-delay: 0.2s; }
+            .nav-links li:nth-child(4) { transition-delay: 0.25s; }
+            .nav-links li:nth-child(5) { transition-delay: 0.3s; }
+            
+            .nav-links a {
+                font-size: 18px;
+                padding: 12px 15px;
+                display: block;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links a:active {
+                background: rgba(67, 97, 238, 0.1);
+                transform: translateX(5px);
+            }
         }
 
         .nav-links li {
@@ -325,16 +465,43 @@
         .hero {
             background: url('mainf.png') center/cover no-repeat;
             color: white;
-            padding: 180px 0;
+            padding: 120px 0 80px;
             text-align: left;
             position: relative;
-            min-height: 80vh;
+            overflow: hidden;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            overflow: hidden;
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
+        }
+        
+        .hero .container {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0 60px;
+                text-align: center;
+                min-height: auto;
+                display: block;
+            }
+            
+            .hero .container {
+                margin: 0 auto !important;
+                text-align: center;
+                padding: 0 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem !important;
+                line-height: 1.3 !important;
+            }
+            
+            .hero p {
+                font-size: 1.1rem !important;
+                max-width: 100% !important;
+            }
         }
 
         .hero::before {
@@ -524,18 +691,6 @@
                 font-size: 32px;
                 margin-bottom: 40px;
             }
-        }
-        
-        @media (max-width: 576px) {
-            .about-content {
-                padding: 25px 20px;
-                border-radius: 8px;
-            }
-            
-            .about h2 {
-                font-size: 28px;
-                margin-bottom: 30px;
-            }
             
             .about-text p {
                 font-size: 15px;
@@ -548,6 +703,25 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
+        }
+        
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .about-content img.about-image {
+                max-height: 400px;
+                margin: 0 auto;
+            }
+            
+            .about-text p {
+                padding-left: 0 !important;
+                border-left: none !important;
+                text-align: left;
+            }
         }
 
         .about-content img.about-image {
@@ -981,17 +1155,22 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
             margin-top: 40px;
         }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-            padding: 20px;
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 30px auto 0;
+            }
+            
+            .product-card {
+                margin: 0 auto;
+                max-width: 350px;
+            }
         }
 
         .product-card {
@@ -1004,24 +1183,26 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
         }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        
+        .product-card:active {
+            transform: scale(0.98);
         }
-
+        
         .product-card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             transition: var(--transition);
         }
-
+        
         .product-card:hover img {
             transform: scale(1.05);
         }
-
+        
         .product-card h3 {
             font-size: 20px;
             margin: 15px 20px 10px;
@@ -1031,52 +1212,33 @@
             animation: fadeInUp 0.6s ease-out forwards;
             animation-delay: calc(var(--animation-order) * 0.1s);
         }
-
+        
         .product-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 28px;
-            margin: 15px 20px 25px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: inline-block;
+            background: var(--primary);
             color: white;
-            border-radius: 30px;
+            padding: 14px 32px;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-weight: 500;
+            margin: 15px auto;
+            transition: all 0.3s ease;
+            min-width: 150px;
+            text-align: center;
+            font-size: 1rem;
             border: none;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease-out 0.3s forwards;
-            animation-delay: calc(var(--animation-order) * 0.1s);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
-
+        
+        .product-btn:active {
+            transform: translateY(1px);
+            background: #2a5bd7;
+        }
+        
         .product-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.35);
-            letter-spacing: 0.8px;
-        }
-
-        .product-btn:active {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.25);
-        }
-
-        .product-btn::after {
-            content: '→';
-            margin-left: 8px;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .product-btn:hover::after {
-            transform: translateX(4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
 
         /* Certifications Section */
@@ -1791,6 +1953,79 @@
         }
     </style>
     <script>
+        // Enhanced mobile menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const navOverlay = document.createElement('div');
+            navOverlay.className = 'nav-overlay';
+            document.body.appendChild(navOverlay);
+            
+            const navLinksItems = document.querySelectorAll('.nav-link');
+            let isMenuOpen = false;
+            
+            function toggleMenu(open) {
+                isMenuOpen = typeof open === 'boolean' ? open : !isMenuOpen;
+                
+                menuToggle.classList.toggle('active', isMenuOpen);
+                navLinks.classList.toggle('active', isMenuOpen);
+                navOverlay.classList.toggle('active', isMenuOpen);
+                
+                if (isMenuOpen) {
+                    document.body.style.overflow = 'hidden';
+                    document.documentElement.style.overflow = 'hidden';
+                    // Add smooth transition for menu items
+                    setTimeout(() => {
+                        navLinks.querySelectorAll('li').forEach(li => {
+                            li.style.opacity = 1;
+                            li.style.transform = 'translateX(0)';
+                        });
+                    }, 50);
+                } else {
+                    document.body.style.overflow = '';
+                    document.documentElement.style.overflow = '';
+                    // Reset menu items for next open
+                    navLinks.querySelectorAll('li').forEach(li => {
+                        li.style.opacity = 0;
+                        li.style.transform = 'translateX(20px)';
+                    });
+                }
+            }
+            
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+            
+            // Close mobile menu when clicking on a nav link
+            navLinksItems.forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMenu(false);
+                });
+            });
+            
+            // Close menu when clicking overlay
+            navOverlay.addEventListener('click', () => {
+                toggleMenu(false);
+            });
+            
+            // Handle keyboard navigation and escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isMenuOpen) {
+                    toggleMenu(false);
+                }
+            });
+            
+            // Close menu when window is resized to desktop
+            function handleResize() {
+                if (window.innerWidth > 992 && isMenuOpen) {
+                    toggleMenu(false);
+                }
+            }
+            
+            window.addEventListener('resize', handleResize);
+        });
+        
         // Animate Quality Assurance section on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const qualitySection = document.getElementById('quality-assurance');
@@ -2083,19 +2318,27 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header id="header">
         <div class="container">
-            <nav>
+            <div class="nav-container">
                 <div class="logo">
                     <h1><span class="logo-text">TRUEGLAM</span><span class="tagline">Pharmaceuticals Pvt Ltd</span></h1>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#footer">Contact</a></li>
-                </ul>
-            </nav>
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#products" class="nav-link">Products</a></li>
+                        <li><a href="#quality" class="nav-link">Quality</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -2540,6 +2783,7 @@
             background: #f3f4f6;
             color: #1a73e8;
             border-radius: 50%;
+            margin-right: 10px;
             transition: all 0.3s ease;
         }
         
@@ -2589,6 +2833,43 @@
             .footer-col:last-child {
                 margin-bottom: 0;
             }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .footer-section {
+                margin-bottom: 30px;
+            }
+            
+            .footer-section h3 {
+                margin-bottom: 20px;
+                position: relative;
+                display: inline-block;
+            }
+            
+            .footer-section h3::after {
+                content: '';
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 2px;
+                background: var(--primary);
+            }
+            
+            .footer-social {
+                justify-content: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
         }
     </style>
     
@@ -2606,14 +2887,14 @@
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            gap: 40px;
             margin-bottom: 40px;
         }
         
         .footer-section h3 {
             color: #fff;
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             position: relative;
             padding-bottom: 10px;
         }
