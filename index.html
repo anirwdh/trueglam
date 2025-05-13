@@ -1,5 +1,4 @@
-
-           <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -530,7 +529,17 @@
                 height: 34px !important;
             }
         }
-        @media (max-width: 600px) {
+        @media (max-width: 991px) {
+    .nav-links {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .menu-toggle {
+        display: flex !important;
+    }
+}
+
+@media (max-width: 600px) {
             .nav-container {
                 padding: 2px 0 !important;
             }
@@ -2985,13 +2994,14 @@
                 <a href="#" class="logo" style="display: flex; align-items: center;">
     <img src="ll.png" alt="Logo" style="height: 54px; width: auto;">
 </a>
-                <button class="menu-toggle" aria-label="Toggle menu">
+                <button class="menu-toggle" aria-label="Toggle menu" style="display: flex !important;">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
                 <nav class="nav-links-container">
-                    <ul class="nav-links">
+                    <ul class="nav-links" style="display: flex; flex-direction: row;">
+    <!-- Nav links will be set to column on mobile via CSS -->
                         <li><a href="#home" class="nav-link" style="color: #60a5fa; text-decoration: underline; font-weight: 600;">Home</a></li>
                         <li><a href="#about" class="nav-link" style="color: #60a5fa; text-decoration: underline; font-weight: 600;">About</a></li>
                         <li><a href="#products" class="nav-link" style="color: #60a5fa; text-decoration: underline; font-weight: 600;">Products</a></li>
