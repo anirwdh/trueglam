@@ -9,7 +9,8 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Trueglam Pharmaceuticals Pvt Ltd</title>
+    <title>TRUEGLAM</title>
+  <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="l.png" type="image/png">
     <style>
         /* Mobile-first touch optimizations */
@@ -3093,37 +3094,15 @@ document.addEventListener('DOMContentLoaded', resetOverflow);
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg">
-            <img src="mainf.png" alt="Background" class="hero-bg-image">
-        </div>
-        <div class="container" style="padding: 200px 20px 100px; position: relative; z-index: 2; max-width: 800px; margin: 0 auto; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;">
-            <div class="hero-content" style="background-color: rgba(255, 255, 255, 0.8); width: 100%; max-width: 90%; padding: 40px 30px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); text-align: center; backdrop-filter: blur(5px); margin: 0 auto;">
-                <div style="margin-bottom: 25px;">
-                    <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; justify-content: center;">
-                            <img src="l.png" alt="Trueglam Logo" style="height: 45px; width: auto;">
-                            <h1 style="margin: 0; font-size: 2.2rem; color: #27ae60; font-weight: 700; line-height: 1.2; word-break: break-word;">
-                                TRUEGLAM
-                            </h1>
-                        </div>
-                        <div style="height: 2px; width: 80px; background: linear-gradient(90deg, transparent, #2ecc71, transparent); margin: 5px 0;"></div>
-                        <p style="margin: 0; font-size: 1rem; color: #4a5568; font-weight: 500; line-height: 1.4;">PHARMACEUTICALS PVT. LTD.</p>
-                    </div>
-                </div>
-                <div style="margin: 20px 0 25px;">
-                    <div id="typewriter-desc" style="color: #2d3748; font-size: 1rem; line-height: 1.6; margin: 0 auto 15px; max-width: 90%; word-break: break-word;"></div>
-
-                </div>
-                <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px;">
-                    <a href="#products" class="btn" style="background: #2ecc71; color: white; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; border: 2px solid #2ecc71;">
-                        View Products
-                    </a>
-                    <a href="#contact" class="btn" style="background: transparent; color: #2ecc71; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; border: 2px solid #2ecc71;">
-                        Contact Us
-                    </a>
-                </div>
-            </div>
+    <div class="hero-section">
+    <div class="overlay">
+        <h1 class="title"><span id="typewriter"></span></h1>
+      <p class="subtitle subtitle-animate">Trueglam Pharmaceuticals Pvt Ltd is committed to providing high-quality and affordable medicines to support patients in need.</p>
+      <a href="#about" class="btn">Learn More</a>
+    </div>
+  </div><!-- END HERO SECTION -->
+        
+        
         </div>
     </section>
 
@@ -4105,6 +4084,22 @@ document.addEventListener('DOMContentLoaded', resetOverflow);
                 }
             });
         });
+        document.addEventListener('DOMContentLoaded', function() {
+  const el = document.getElementById('typewriter');
+  const text = "TRUEGLAM";
+  let i = 0;
+
+  function type() {
+    if (i <= text.length) {
+      el.innerHTML = text.slice(0, i) + '<span class="typewriter-cursor"></span>';
+      i++;
+      setTimeout(type, 120);
+    } else {
+      el.innerHTML = text; // Remove cursor after finish, or keep if you want
+    }
+  }
+  type();
+});
     </script>
     </body>
 </html>
