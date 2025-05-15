@@ -1,0 +1,22 @@
+# robots.txt for TRUEGLAM Pharmaceuticals
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.trueglampharma.com/sitemap.xml
+
+# Disallow admin and private directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /includes/
+
+# Allow all other pages to be crawled
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+
+# Crawl-delay: 10  # Uncomment and adjust if needed to limit crawl rate
